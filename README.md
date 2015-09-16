@@ -19,7 +19,7 @@
 我希望把在`4个`月内做一个大致了解吧.
 
 [1]:http://quxl.snbway.net
-[2]:/book/AngularJS权威教程.pdf
+[2]:/books/AngularJS权威教程.pdf
 [3]:http://semantic-ui.com/
 [4]:https://angularjs.org/
 [5]:http://es6.ruanyifeng.com/
