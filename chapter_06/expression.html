@@ -8,15 +8,15 @@
 <div ng-controller="myController">
     <input ng-model="expr" type="text" placeholder="Enter an expression">
 
-    <h2> {_{parsedValue}_}</h2>
+    <h2> {{{ parsedValue }}}</h2>
 </div>
 
 <script type="application/javascript">
 
     var app = angular.module('app', []);
     app.config(['$interpolateProvider', function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('{_{');
-        $interpolateProvider.endSymbol('}_}');
+        $interpolateProvider.startSymbol('{{{');
+        $interpolateProvider.endSymbol('}}}');
     }]);
     app.controller('myController', function ($scope, $parse) {
         $scope.$watch('expr', function (newVal, oldVal, scope) {
