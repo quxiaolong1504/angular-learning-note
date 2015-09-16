@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>angular expression</title>
+    <script src="../common/angular.min.js"></script>
+</head>
+<body>
+<div ng-controller="myController">
+    <input ng-model="expr" type="text" placeholder="Enter an expression">
+
+    <h2> {_{parsedValue}_}</h2>
+</div>
+
+<script type="application/javascript">
+
+    var app = angular.module('app', []);
+    app.config(['$interpolateProvider', function ($interpolateProvider) {
+        $interpolateProvider.startSymbol('{_{');
+        $interpolateProvider.endSymbol('}_}');
+    }]);
+    app.controller('myController', function ($scope, $parse) {
+        $scope.$watch('expr', function (newVal, oldVal, scope) {
+            if (newVal != oldVal) {
+                var parseFun = $parse(newVal);
+                $scope.parsedValue = parseFun(scope);
+            }
+        })
+
+    })
+</script>
+
+</body>
+</html>
