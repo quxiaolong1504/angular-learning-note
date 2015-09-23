@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html ng-app="app" ng-controller="MainCtrl">
+<head>
+    <title>angular directive</title>
+    <script src="../common/angular.min.js"></script>
+</head>
+<body>
+<h2>ng-disabled</h2>
+<input type="text" ng-model="attr" placeholder="Enter something.">
+<button ng-disabled="!attr">ng-disabled</button>
+
+<br/>
+<br/>
+<h2>ng-readonly</h2>
+Type here to make sibling readonly:
+<br/>
+<input type="text" ng-model="someProperty"><br/>
+<input type="text" ng-readonly="someProperty" value="Some text here"/>
+
+<br/>
+<br/>
+<h3>ng-checked</h3>
+<label>someProperty = {{ isChecked }}</label><br/>
+<input type="checkbox" ng-checked="isChecked" ng-model="isChecked" ng-init="isChecked = true">
+
+<br/>
+<br/>
+<h4>ng-selected</h4>
+<label>Select Two Fish:</label>
+<input type="checkbox" ng-model="isTwoFish"><br/>
+<select>
+    <option>One Fish</option>
+    <option ng-selected="isTwoFish">Two Fish</option>
+    <option>Three Fish</option>
+</select>
+
+
+<br/>
+<br/>
+<h4>ng-change</h4>
+<input type="text" ng-model="user.name" ng-click="onClick()" ng-change="onChange()">
+<div >
+
+
+<h4>ng-options</h4>
+<select ng-model="city" ng-options="city.name for city in cities">
+<option value="">Choose City</option>
+</select>
+Best City: {{ city.name }}
+</div>
+
+
+<script type="application/javascript">
+    var app = angular.module('app', []);
+    app.controller('MainCtrl', function ($scope, $filter) {
+        $scope.isDisabled = true;
+        $scope.user = {};
+        $scope.onChange = function(){
+          console.info($scope.user)
+        };
+        $scope.onClick = function(){
+          console.info('clicked!');
+        };
+
+        $scope.cities = [
+            {name: 'Seattle'},
+            {name: 'San Francisco'},
+            {name: 'Chicago'},
+            {name: 'New York'},
+            {name: 'Boston'}
+        ];
+    });
+</script>
+</body>
+</html>
