@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html ng-app="app" ng-controller="mainController">
+<head>
+    <title>angular service</title>
+    <script src="../common/angular.min.js"></script>
+</head>
+<body>
+<h1>angular service</h1>
+<div>
+    <label for="username">Type in a GitHub username</label>
+    <input type="text" ng-model="username" placeholder="Enter a GitHub username">
+    <ul>
+        <li ng-repeat="event in events">
+            {{event.actor.login}} {{event.repo.name}}
+        </li>
+    </ul>
+</div>
+
+<script type="application/javascript">
+    var services = angular.module('app.services', []);
+    services.factory('githubService', function ($http) {
+        var githubUrl = 'https://api.github.com',
+                githubUsername;
+        var runUserRequest = function(username, path){
+            return $http({
+                method: 'JSONP',
+                MIME:'application/javascript',
+                url: githubUrl + '/users/' + username + '/' + path + '?call_bak=JSON_CALLBACK'
+            })
+        };
+        return {events: function(username){
+            return runUserRequest(username, 'events');
+        },
+        setUsername: function(username){
+            githubUsername = username;
+        }}
+    });
+
+    var app = angular.module('app', ['app.services']);
+    app.controller('mainController', function($scope, $timeout, githubService){
+        $scope.evnets = githubService.events('quxiaolong1504');
+        var timeout;
+        $scope.setUsername = githubService.setUsername;
+
+        $scope.$watch('username', function(newUsername){
+            if(newUsername){
+                if(timeout)$timeout.cancel(timeout);
+                timeout = $timeout(function(){
+                    githubService.events(newUsername)
+                    .success(function(data, status, heards){
+                        console.info(data);
+                        $scope.events = data.data;
+                    })
+                }, 350);
+            }
+
+        })
+    })
+
+</script>
+</body>
+</html>
